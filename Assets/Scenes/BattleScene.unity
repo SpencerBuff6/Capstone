@@ -492,8 +492,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac9120fa61221d4aa029bdc8110743e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  enemy:
+    name: Enemy2
+    enemyType: 0
+    isStaggered: 0
+    baseHP: 100
+    currentHP: 100
+    baseMP: 70
+    currentMP: 70
+    baseStagger: 100
+    currentStagger: 0
+    baseAttack: 5
+    currentAttack: 5
+    baseDefense: 5
+    currentDefense: 5
+    baseSpeed: 5
+    currentSpeed: 5
+  manager: {fileID: 1841365679}
   healthBar: {fileID: 1198964698}
+  movementSpeed: 5
 --- !u!1 &155132195
 GameObject:
   m_ObjectHideFlags: 0
@@ -859,7 +876,7 @@ GameObject:
   - component: {fileID: 206365026}
   - component: {fileID: 206365027}
   m_Layer: 5
-  m_Name: Enemy Health
+  m_Name: Enemy 3 Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1873,7 +1890,7 @@ GameObject:
   - component: {fileID: 385226243}
   m_Layer: 0
   m_Name: Gunslinger
-  m_TagString: Untagged
+  m_TagString: PartyMember
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1966,6 +1983,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a24faa66b9b0f4f87f454f4ed281b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  partyMember:
+    name: Gunslinger
+    baseHP: 100
+    currentHP: 100
+    baseMP: 80
+    currentMP: 80
+    baseStagger: 0
+    currentStagger: 0
+    baseAttack: 5
+    currentAttack: 5
+    baseDefense: 5
+    currentDefense: 5
+    baseSpeed: 5
+    currentSpeed: 5
+  manager: {fileID: 1841365679}
+  healthBar: {fileID: 1443723478}
+  movementSpeed: 5
 --- !u!1 &394438081
 GameObject:
   m_ObjectHideFlags: 0
@@ -2586,7 +2620,7 @@ GameObject:
   - component: {fileID: 498466338}
   m_Layer: 0
   m_Name: Engineer
-  m_TagString: Untagged
+  m_TagString: PartyMember
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2679,6 +2713,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a24faa66b9b0f4f87f454f4ed281b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  partyMember:
+    name: Engineer
+    baseHP: 100
+    currentHP: 100
+    baseMP: 80
+    currentMP: 80
+    baseStagger: 0
+    currentStagger: 0
+    baseAttack: 5
+    currentAttack: 5
+    baseDefense: 5
+    currentDefense: 5
+    baseSpeed: 5
+    currentSpeed: 5
+  manager: {fileID: 1841365679}
+  healthBar: {fileID: 1295522511}
+  movementSpeed: 5
 --- !u!1 &528089017
 GameObject:
   m_ObjectHideFlags: 0
@@ -2959,6 +3010,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6c88f0e229f85a74c8408ebf65c7341f, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 6c88f0e229f85a74c8408ebf65c7341f, type: 3}
       propertyPath: m_Controller
       value: 
@@ -3113,7 +3168,7 @@ GameObject:
   - component: {fileID: 592678613}
   - component: {fileID: 592678614}
   m_Layer: 5
-  m_Name: Enemy Health
+  m_Name: Enemy 1 Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6556,8 +6611,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac9120fa61221d4aa029bdc8110743e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  enemy:
+    name: Enemy3
+    enemyType: 0
+    isStaggered: 0
+    baseHP: 100
+    currentHP: 100
+    baseMP: 70
+    currentMP: 70
+    baseStagger: 100
+    currentStagger: 0
+    baseAttack: 5
+    currentAttack: 5
+    baseDefense: 5
+    currentDefense: 5
+    baseSpeed: 5
+    currentSpeed: 5
+  manager: {fileID: 1841365679}
   healthBar: {fileID: 206365027}
+  movementSpeed: 5
 --- !u!1 &1193596424
 GameObject:
   m_ObjectHideFlags: 0
@@ -6658,7 +6730,7 @@ GameObject:
   - component: {fileID: 1198964697}
   - component: {fileID: 1198964698}
   m_Layer: 5
-  m_Name: Enemy Health
+  m_Name: Enemy 2 Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8404,8 +8476,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac9120fa61221d4aa029bdc8110743e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  enemy:
+    name: Enemy1
+    enemyType: 0
+    isStaggered: 0
+    baseHP: 100
+    currentHP: 100
+    baseMP: 70
+    currentMP: 70
+    baseStagger: 100
+    currentStagger: 0
+    baseAttack: 5
+    currentAttack: 5
+    baseDefense: 5
+    currentDefense: 5
+    baseSpeed: 5
+    currentSpeed: 5
+  manager: {fileID: 1841365679}
   healthBar: {fileID: 592678614}
+  movementSpeed: 5
 --- !u!1 &1511086577
 GameObject:
   m_ObjectHideFlags: 0
@@ -9068,11 +9157,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   game: {fileID: 1841365679}
+  healthBar: {fileID: 528089019}
   energyBar: {fileID: 2070276895}
-  speed: 10
-  damage: 10
+  basicDamage: 10
+  specialDamage: 30
+  numberOfAttacks: 0
   animator: {fileID: 1665730232}
   energyUsed: 0
+  energyMax: 2
+  speed: 10
+  state: 0
 --- !u!54 &1665730230
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -9084,8 +9178,8 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
@@ -9932,7 +10026,26 @@ MonoBehaviour:
   firstEnemyButton: {fileID: 1614776138}
   secondEnemyButton: {fileID: 1922431370}
   thirdEnemyButton: {fileID: 1309483708}
+  playerName: {fileID: 2082719850}
+  partyOneName: {fileID: 2134284094}
+  partyTwoName: {fileID: 1855486659}
+  partyThreeName: {fileID: 1369739462}
+  enemyOneName: {fileID: 1963316564}
+  enemyTwoName: {fileID: 1000464640}
+  enemyThreeName: {fileID: 335101016}
+  playerHealthBar: {fileID: 528089019}
+  partyMemberOneHealthBar: {fileID: 1443723478}
+  partyMemberTwoHealthBar: {fileID: 1453775714}
+  partyMemberThreeHealthBar: {fileID: 1295522511}
+  enemyOneHealthBar: {fileID: 592678614}
+  enemyTwoHealthBar: {fileID: 1198964698}
+  enemyThreeHealthBar: {fileID: 206365027}
   player: {fileID: 1665730229}
+  combatState: 0
+  enemyToBeAttacked: {fileID: 0}
+  clickCounter: 0
+  enemies: []
+  partyMembers: []
 --- !u!4 &1841365680
 Transform:
   m_ObjectHideFlags: 0
@@ -12757,7 +12870,7 @@ GameObject:
   - component: {fileID: 2123160542}
   m_Layer: 0
   m_Name: Technomancer
-  m_TagString: Untagged
+  m_TagString: PartyMember
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12850,6 +12963,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a24faa66b9b0f4f87f454f4ed281b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  partyMember:
+    name: Technomancer
+    baseHP: 100
+    currentHP: 100
+    baseMP: 80
+    currentMP: 80
+    baseStagger: 0
+    currentStagger: 0
+    baseAttack: 5
+    currentAttack: 5
+    baseDefense: 5
+    currentDefense: 5
+    baseSpeed: 5
+    currentSpeed: 5
+  manager: {fileID: 1841365679}
+  healthBar: {fileID: 1453775714}
+  movementSpeed: 5
 --- !u!1 &2133352377
 GameObject:
   m_ObjectHideFlags: 0

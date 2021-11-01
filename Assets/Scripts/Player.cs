@@ -9,26 +9,32 @@ public class Player : MonoBehaviour
     public enum eState
     {
         IDLE,
+        ATTACK_DELIVER,
         ATTACK,
-        ATTACK_RETURN
+        ATTACK_RETURN,
+        DEAD
     }
 
-
-    public int health = 100;
+    public float health = 100;
     public CombatManager game;
+    public Slider healthBar;
     public Slider energyBar;
-    public float speed = 0;
-    public int damage = 10;
+    public int basicDamage = 10;
+    public int specialDamage = 30;
+
+    public int numberOfAttacks;
 
     public Animator animator;
 
     public int energyUsed;
-    eState state = eState.IDLE;
+    public float energyMax = 2;
+    public float speed;
+    public eState state = eState.IDLE;
     Vector3 target;
     Vector3 startPosition;
+
     public int CalculateEnergyUsed()
     {
-        Debug.Log(energyUsed);
         if(energyUsed == energyBar.value)
         {
             game.EnemyTargetPanel.SetActive(true);
@@ -55,8 +61,9 @@ public class Player : MonoBehaviour
         return energyUsed;
     }
 
-    private void Start()
+    void Start()
     {
+        healthBar.value = health;
         startPosition = transform.position;
     }
 
@@ -65,11 +72,27 @@ public class Player : MonoBehaviour
         switch (state)
         {
             case eState.IDLE:
+                speed = 0;
+                animator.SetBool("Run", false);
+                if(energyBar.value <= 0)
+                {
+                    while (energyBar.value < energyMax)
+                    {
+                        energyBar.value += Time.deltaTime;
+                    }
+                } 
+                break;
+            case eState.ATTACK_DELIVER:
+                speed = 10;
+                animator.SetBool("Run", true);
+                transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+                if(Vector3.Distance(transform.position, target) <= .5f)
+                {
+                    state = eState.ATTACK;
+                }
                 break;
             case eState.ATTACK:
-                speed = 10;
-                animator.SetFloat("speed", speed);
-                transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+                animator.SetBool("Run", false);
                 if (Vector3.Distance(transform.position, target) <= 2f)
                 {
                     state = eState.ATTACK_RETURN;
@@ -77,21 +100,28 @@ public class Player : MonoBehaviour
                 break;
             case eState.ATTACK_RETURN:
                 speed = 10;
+                animator.SetBool("Run", true);
                 transform.position = Vector3.MoveTowards(transform.position, startPosition, speed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, startPosition) <= 20f)
                 {
                     state = eState.IDLE;
                 }
+                if(health == 0)
+                {
+                    state = eState.DEAD;
+                }
+                break;
+            case eState.DEAD:
                 break;
             default:
                 break;
         }
-        Debug.Log(state);
+
     }
 
     public void Attack(Vector3 position)
     {
-        state = eState.ATTACK;
+        state = eState.ATTACK_DELIVER;
         target = position;
     }
 

@@ -6,8 +6,14 @@ using TMPro;
 
 public class CombatManager : MonoBehaviour
 {
-    private int clickCounter = 0;
-    private string selectedEnemy;
+    public enum CombatState
+    {
+        INITIATE,
+        DURING_COMBAT,
+        WINNER
+    }
+
+    #region DeclaredVariables
 
     public int basicAttackValue = 1;
     public int abilityValue = 2;
@@ -30,15 +36,40 @@ public class CombatManager : MonoBehaviour
     public Button secondEnemyButton;
     public Button thirdEnemyButton;
 
+    public TMP_Text playerName;
+    public TMP_Text partyOneName;
+    public TMP_Text partyTwoName;
+    public TMP_Text partyThreeName;
+
+    public TMP_Text enemyOneName;
+    public TMP_Text enemyTwoName;
+    public TMP_Text enemyThreeName;
+
+    public Slider playerHealthBar;
+    public Slider partyMemberOneHealthBar;
+    public Slider partyMemberTwoHealthBar;
+    public Slider partyMemberThreeHealthBar;
+
+    public Slider enemyOneHealthBar;
+    public Slider enemyTwoHealthBar;
+    public Slider enemyThreeHealthBar;
+
     public Player player;
 
-    private GameObject[] enemies;
+    public CombatState combatState;
+    
+    public EnemyAI enemyToBeAttacked;
+
+    public int clickCounter = 0;
+    private string selectedEnemy;
+
+    public GameObject[] enemies;
+    public GameObject[] partyMembers;
 
     private GameObject selectedEnemyObject;
-    private EnemyAI enemyToBeAttacked;
 
+    #endregion
 
-    // Start is called before the first frame update
     void Start()
     {
         MainOptionsPanel.SetActive(true);
@@ -47,17 +78,49 @@ public class CombatManager : MonoBehaviour
         ParadigmOptionsPanel.SetActive(false);
         EnemyTargetPanel.SetActive(false);
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        partyMembers = GameObject.FindGameObjectsWithTag("PartyMember");
 
         firstEnemyButton.GetComponentInChildren<TextMeshProUGUI>().text = enemies[0].gameObject.name;
         secondEnemyButton.GetComponentInChildren<TextMeshProUGUI>().text = enemies[1].gameObject.name;
         thirdEnemyButton.GetComponentInChildren<TextMeshProUGUI>().text = enemies[2].gameObject.name;
+
+        playerName.text = player.gameObject.name;
+        partyOneName.text = partyMembers[0].gameObject.name;
+        partyTwoName.text = partyMembers[1].gameObject.name;
+        partyThreeName.text = partyMembers[2].gameObject.name;
+
+        enemyOneName.text = enemies[0].name;
+        enemyTwoName.text = enemies[1].name;
+        enemyThreeName.text = enemies[2].name;
+
+        playerHealthBar.value = player.health;
+        partyMemberOneHealthBar.value = partyMembers[0].GetComponent<PartyAI>().partyMember.currentHP;
+        partyMemberTwoHealthBar.value = partyMembers[1].GetComponent<PartyAI>().partyMember.currentHP;
+        partyMemberThreeHealthBar.value = partyMembers[2].GetComponent<PartyAI>().partyMember.currentHP;
+
+        enemyOneHealthBar.value = enemies[0].GetComponent<EnemyAI>().enemy.currentHP;
+        enemyTwoHealthBar.value = enemies[1].GetComponent<EnemyAI>().enemy.currentHP;
+        enemyThreeHealthBar.value = enemies[2].GetComponent<EnemyAI>().enemy.currentHP;
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //PlayerAttackSelectedEnemy();
+        switch (combatState)
+        {
+            case CombatState.INITIATE:
+                break;
+            case CombatState.DURING_COMBAT:
+                break;
+            case CombatState.WINNER:
+                break;
+            default:
+                break;
+        }
+        Debug.Log(player.state);
     }
+
+    #region UIstuff
 
     public void MainPanelToAttackPanel()
     {
@@ -106,11 +169,14 @@ public class CombatManager : MonoBehaviour
         {
             basicAttack2.SetActive(true);
         }
+        player.numberOfAttacks = clickCounter;
     }
 
     public void TurnOnAbility()
     {
+        clickCounter++;
         ability.SetActive(true);
+        player.numberOfAttacks = clickCounter;
     }
 
     public void AttackPanelToEnemySelection()
@@ -169,7 +235,11 @@ public class CombatManager : MonoBehaviour
             selectedEnemy = enemies[2].name;
         }
     }
-    
+
+    #endregion
+
+    #region DealingDamage
+
     public void PlayerAttackSelectedEnemy()
     {
         EnemySelected();
@@ -179,24 +249,42 @@ public class CombatManager : MonoBehaviour
         ItemOptionsPanel.SetActive(false);
         ParadigmOptionsPanel.SetActive(false);
         EnemyTargetPanel.SetActive(false);
-        basicAttack.SetActive(false);
-        basicAttack2.SetActive(false);
-        ability.SetActive(false);
         selectorOne.SetActive(false);
         selectorTwo.SetActive(false);
         selectorThree.SetActive(false);
-        selectedEnemyObject = GameObject.Find(selectedEnemy);
+        player.energyBar.value = player.energyMax;
+        selectedEnemyObject = GameObject.Find(selectedEnemy); 
         if(selectedEnemyObject != null)
         {
             enemyToBeAttacked = selectedEnemyObject.GetComponent<EnemyAI>();
         }
-        DamageDealing();
+        for(int i = player.numberOfAttacks; i >= 1; i--)
+        {
+            DamageDealing();
+        }
         clickCounter = 0;
         player.energyUsed = 0;
+        if(player.state == Player.eState.IDLE)
+        {
+            Debug.Log("Hi");
+            basicAttack.SetActive(false);
+            basicAttack2.SetActive(false);
+            ability.SetActive(false);
+        }
     }
 
     public void DamageDealing()
     {
-        enemyToBeAttacked.health -= player.damage;
+        if(basicAttack.activeInHierarchy && basicAttack2.activeInHierarchy)
+        {
+            enemyToBeAttacked.enemy.currentHP -= player.basicDamage;
+        }
+        if(ability.activeInHierarchy)
+        {
+            enemyToBeAttacked.enemy.currentHP -= player.specialDamage;
+        }
+        player.energyBar.value -= player.energyUsed;
     }
+
+    #endregion
 }
