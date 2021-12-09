@@ -6,13 +6,6 @@ using TMPro;
 
 public class CombatManager : MonoBehaviour
 {
-    public enum CombatState
-    {
-        INITIATE,
-        DURING_COMBAT,
-        WINNER
-    }
-
     #region DeclaredVariables
 
     public int basicAttackValue = 1;
@@ -55,8 +48,6 @@ public class CombatManager : MonoBehaviour
     public Slider enemyThreeHealthBar;
 
     public Player player;
-
-    public CombatState combatState;
     
     public EnemyAI enemyToBeAttacked;
 
@@ -68,6 +59,8 @@ public class CombatManager : MonoBehaviour
 
     private GameObject selectedEnemyObject;
 
+    public LevelLoader levelLoader;
+
     #endregion
 
     void Start()
@@ -77,6 +70,7 @@ public class CombatManager : MonoBehaviour
         ItemOptionsPanel.SetActive(false);
         ParadigmOptionsPanel.SetActive(false);
         EnemyTargetPanel.SetActive(false);
+
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         partyMembers = GameObject.FindGameObjectsWithTag("PartyMember");
 
@@ -106,18 +100,13 @@ public class CombatManager : MonoBehaviour
 
     void Update()
     {
-        switch (combatState)
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        partyMembers = GameObject.FindGameObjectsWithTag("PartyMember");
+        if(enemies.Length <= 0)
         {
-            case CombatState.INITIATE:
-                break;
-            case CombatState.DURING_COMBAT:
-                break;
-            case CombatState.WINNER:
-                break;
-            default:
-                break;
+            levelLoader.LoadWanderingLevel();
         }
-        Debug.Log(player.state);
+        Debug.Log(enemies.Length);
     }
 
     #region UIstuff

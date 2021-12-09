@@ -106,12 +106,13 @@ public class Player : MonoBehaviour
                 {
                     state = eState.IDLE;
                 }
-                if(health == 0)
+                if(health <= 0)
                 {
                     state = eState.DEAD;
                 }
                 break;
             case eState.DEAD:
+                Destroy(gameObject);
                 break;
             default:
                 break;

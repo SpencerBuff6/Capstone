@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
     public CombatManager manager;
     public Slider healthBar;
     public float movementSpeed;
-    //public animator animator;
+    public Animator animator;
 
     Vector3 startPosition;
 
@@ -51,6 +51,11 @@ public class EnemyAI : MonoBehaviour
         switch (state)
         {
             case eState.IDLE:
+                if (enemy.currentHP <= 0)
+                {
+                    state = eState.DEAD;
+                }
+                animator.SetBool("Run", false);
                 enemy.currentSpeed -= Time.deltaTime;
                 target = possibleTargets[targetNum].transform.position;
                 if(enemy.currentSpeed <= 0)
@@ -59,8 +64,12 @@ public class EnemyAI : MonoBehaviour
                 }
                 break;
             case eState.ATTACK_DELIVER:
+                if (enemy.currentHP <= 0)
+                {
+                    state = eState.DEAD;
+                }
                 movementSpeed = 10;
-                //animator.SetBool("Run", true);
+                animator.SetBool("Run", true);
                 transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, target) <= .5f)
                 {
@@ -68,19 +77,26 @@ public class EnemyAI : MonoBehaviour
                 }
                 break;
             case eState.ATTACK:
+                if (enemy.currentHP <= 0)
+                {
+                    state = eState.DEAD;
+                }
+                animator.SetBool("Run", false);
+                animator.SetBool("Attack", true);
                 Attack();
                 state = eState.ATTACK_RETREAT;
                 break;
             case eState.ATTACK_RETREAT:
                 enemy.currentSpeed = enemy.baseSpeed;
                 movementSpeed = 10;
-                //animator.SetBool("Run", true);
+                animator.SetBool("Attack", false);
+                animator.SetBool("Run", true);
                 transform.position = Vector3.MoveTowards(transform.position, startPosition, movementSpeed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, startPosition) <= 20f)
                 {
                     state = eState.IDLE;
                 }
-                if (enemy.currentHP == 0)
+                if (enemy.currentHP <= 0)
                 {
                     state = eState.DEAD;
                 }

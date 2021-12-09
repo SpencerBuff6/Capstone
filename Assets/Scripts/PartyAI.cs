@@ -10,7 +10,7 @@ public class PartyAI : MonoBehaviour
     public CombatManager manager;
     public Slider healthBar;
     public float movementSpeed;
-    //public animator animator;
+    public Animator animator;
 
     Vector3 startPosition;
 
@@ -49,6 +49,11 @@ public class PartyAI : MonoBehaviour
         switch (state)
         {
             case eState.IDLE:
+                if (partyMember.currentHP <= 0)
+                {
+                    state = eState.DEAD;
+                }
+                animator.SetBool("Run", false);
                 partyMember.currentSpeed -= Time.deltaTime;
                 target = possibleTargets[targetNum].transform.position;
                 if (partyMember.currentSpeed <= 0)
@@ -57,8 +62,12 @@ public class PartyAI : MonoBehaviour
                 }
                 break;
             case eState.ATTACK_DELIVER:
+                if (partyMember.currentHP <= 0)
+                {
+                    state = eState.DEAD;
+                }
                 movementSpeed = 10;
-                //animator.SetBool("Run", true);
+                animator.SetBool("Run", true);
                 transform.position = Vector3.MoveTowards(transform.position, target, movementSpeed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, target) <= .5f)
                 {
@@ -66,19 +75,26 @@ public class PartyAI : MonoBehaviour
                 }
                 break;
             case eState.ATTACK:
+                if (partyMember.currentHP <= 0)
+                {
+                    state = eState.DEAD;
+                }
+                animator.SetBool("Run", false);
+                animator.SetBool("Attack", true);
                 Attack();
                 state = eState.ATTACK_RETREAT;
                 break;
             case eState.ATTACK_RETREAT:
                 partyMember.currentSpeed = partyMember.baseSpeed;
                 movementSpeed = 10;
-                //animator.SetBool("Run", true);
+                animator.SetBool("Run", true);
+                animator.SetBool("Attack", false);
                 transform.position = Vector3.MoveTowards(transform.position, startPosition, movementSpeed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, startPosition) <= 20f)
                 {
                     state = eState.IDLE;
                 }
-                if (partyMember.currentHP == 0)
+                if (partyMember.currentHP <= 0)
                 {
                     state = eState.DEAD;
                 }
